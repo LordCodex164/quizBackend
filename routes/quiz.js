@@ -5,10 +5,10 @@ const {
     getQuiz, 
     createQuiz, 
     updateQuiz, 
-    deleteQuiz
+    deleteQuiz,
 } = require("../controllers/quizControllers")
 
 router.route("/").get(getAllQuiz).post(createQuiz)
 router.route("/:id").get(getQuiz).patch(updateQuiz).delete(deleteQuiz)
 
-module.exports = router
+module.exports = router;

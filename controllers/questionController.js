@@ -1,21 +1,16 @@
 const Question = require("../models/question")
 const Quiz = require("../models/Quiz")
+const asyncWrapper = require("../middleware/asyncwrapper")
 
-const getAllQuestions = async (req, res) => {
-  try{
+const getAllQuestions = asyncWrapper(async (req, res) => {
    const allQuestions = await Question.find({})
     res.status(200).json({allQuestions}) 
-  } catch(error){
-    console.log(error)
-  }
-    
-}  
+})
 
-const createQuestion = async (req, res) => {
+const createQuestion = asyncWrapper(async (req, res) => {
   const { id:quizId } = req.params;
   const { prompt, options, correctAnswer } = req.body;
   console.log(req.body)
-  try {
     const quiz = await Quiz.findById(quizId);
 
     if (!quiz) {
@@ -31,17 +26,10 @@ const createQuestion = async (req, res) => {
     await quiz.save();
      console.log(question)
     res.status(201).json({question})
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' })
-
-  }
  
-}
+})
 
-const getQuiz = async (req, res) => {
-   
-    try {
+const getQuiz = asyncWrapper(async(req, res) => {
          const {id: QuestionId} = req.params
          console.log(TaskId)
         const singleQuestionWithId = await Quiz.findById({_id: QuestionId})
@@ -49,11 +37,7 @@ const getQuiz = async (req, res) => {
             return res.status(404).json({msg: `task not found with id ${QuestionId}`})
        }
        res.status(200).json({singleQuestionWithId})
-       } catch (error) {
-         console.log(error)
-         res.status(500).json({error: error})
-      }
-}
+})
 
 const updateQuestion = async (req, res) => {
     try {
