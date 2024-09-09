@@ -3,6 +3,7 @@ const app = express()
 const connectDB = require("./db/connect")
 const port = 3000
 const cors = require("cors")
+require('express-async-errors');
 const quiz = require("./routes/quiz")
 const question = require("./routes/question")
 const login = require("./routes/auth")
@@ -20,6 +21,7 @@ app.use("/api/v1/quiz", quiz)
 app.use("/api/v1/auth", login)
 app.use("/api/v1/dashboard", dashboard)
 app.use(notFound)
+app.use(errorHandlerMiddleware)
 //app.use(errorHandlerMiddleware)
 //starting the connection
 

@@ -45,7 +45,6 @@ const getAllQuiz = asyncWrapper( async (req, res) => {
    })
 
    console.log("queryObject", queryObject)
-
    console.log("numericFilters", numericFilters)
    console.log("filters", filters)
 

@@ -1,19 +1,17 @@
 const jwt = require("jsonwebtoken")
-
-const { createCustomError } = require("../errors/custom-error")
-
+const BadRequestError = require("../errors/badRequest")
 const asyncWrapper = require("../middleware/asyncwrapper")
 
 const login = asyncWrapper(async (req, res, next) => {
     const {email, password} = req.body
     if(!email || !password){
-        next(createCustomError("Please enter your details", 402))
+        throw new BadRequestError("Please provide email and password")
     }
     try {
-       const token = await jwt.sign({email, password}, process.env.JWT_SECRET, {expiresIn: "1h"})
+       const token = jwt.sign({email, password}, process.env.JWT_SECRET, {expiresIn: "1h"})
        res.status(200).json({msg: "signed in successfully", token: `here is your token ${token}`}) 
     } catch (error) {
-      next(createCustomError("Not Authorized to access the route", 402))
+      throw new unAuthenticatedError("Failed to sign in")
     }
 })
 
